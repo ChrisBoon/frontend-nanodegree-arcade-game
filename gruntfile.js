@@ -5,7 +5,7 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         jshint: {
-              myFiles: ['js/site/*.js']
+              myFiles: ['js/app.js']
         },
         //concatenate js
         sass: {
