@@ -80,7 +80,39 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
+    }
+    /* Checking collisons in engine as I need to access both player and enemy.
+     * Given player and enemy are not aware of each other the collision detection
+     * should be handled separately.
+    */
+    function checkCollisions() {
+        //get the basic measurements for the player:
+        var playerCenterX = player.x + player.contactCenterX,
+            playerCenterY = player.y + player.contactCenterY,
+            playerW = player.contactW,
+            playerH = player.contactH;
+
+        //for each enemy:
+        allEnemies.forEach(function(enemy) {
+            //get the basic measurements:
+            var enemyCenterX = enemy.x + enemy.contactCenterX,
+                enemyCenterY = enemy.y + enemy.contactCenterY,
+                enemyW = enemy.contactW,
+                enemyH = enemy.contactH,
+                //get safe distances (the distance the player and enemy must be apart to avoid a hit):
+                safeX = (enemyW + playerW) / 2,
+                safeY = (enemyH + playerH) / 2,
+                //get current distances:
+                centerDistanceX = enemyCenterX - playerCenterX,
+                centerDistanceY = enemyCenterY - playerCenterY;
+            //if the enemy and player are not a safe distance apart:
+            if (centerDistanceX > -safeX && centerDistanceX < safeX  && centerDistanceY > -safeY && centerDistanceY < safeY) {
+                //currently just send player back to start.
+                //TODO: extend functionality here:
+                player.reset();
+            };
+        });
     }
 
     /* This is called by the update function and loops through all of the
@@ -170,7 +202,7 @@ var Engine = (function(global) {
         'images/stone-block.png',
         'images/water-block.png',
         'images/grass-block.png',
-        'images/enemy-bug-debug.png',
+        'images/enemy-bug.png',
         'images/char-boy.png'
     ]);
     Resources.onReady(init);

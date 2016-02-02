@@ -13,9 +13,16 @@ var Enemy = function(x,y) {
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug-debug.png';
+    this.sprite = 'images/enemy-bug.png';
     this.x = x;
     this.y = y;
+    // Added some measurements to be able to set a center point
+    // and a 'hitzone' on the enemy. Hitzone is a little smaller
+    // than the image to allow a little tolerance.
+    this.contactCenterX = 55;
+    this.contactCenterY = 36;
+    this.contactW = 70;
+    this.contactH = 50;
 };
 
 // Update the enemy's position, required method for game
@@ -38,6 +45,9 @@ Enemy.prototype.update = function(dt) {
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+
+    ctx.strokeRect(this.x + this.contactCenterX - (this.contactW / 2) , this.y + this.contactCenterY - (this.contactH / 2) ,this.contactW,this.contactH); // DEBUG
+
 };
 
 // Now write your own player class
@@ -47,18 +57,33 @@ var Player = function(x, y) {
     this.x = x;
     this.y = y;
     this.sprite = 'images/char-boy.png';
+    // Added some measurements to be able to set a center point
+    // and a 'hitzone' on the player
+    this.contactCenterX = 34;
+    this.contactCenterY = 55;
+    this.contactW = 40;
+    this.contactH = 40;
 };
 
 Player.prototype.update = function() {
     //ok, currently thinking the board 'edges' logic could go here.
-    if (this.y < 0) {
-        this.y = dimensions.tileHeight*5 -20;
+    // If the player reaches the water:
+    if (this.y < 100) {
+        // Go back to the start:
+        this.reset();
     }
 
+
+};
+// Created a separate call for resetting player as may need to do for more than one reason:
+Player.prototype.reset = function(){
+    this.y = dimensions.tileHeight*5 + 30;
 };
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+
+    ctx.strokeRect(this.x + this.contactCenterX - (this.contactW / 2) , this.y + this.contactCenterY - (this.contactH / 2) ,this.contactW,this.contactH); // DEBUG
 };
 
 Player.prototype.handleInput = function(input) {
@@ -81,13 +106,13 @@ Player.prototype.handleInput = function(input) {
 // Now instantiate your objects.
 
 // Place the player object in a variable called player
-var player = new Player(100, dimensions.tileHeight*5 - 20);
+var player = new Player(116, dimensions.tileHeight*5 + 30);
 
 // Place all enemy objects in an array called allEnemies
 var allEnemies = [];
 
 for (var i = 2; i >= 0; i--) {
-    var enemyY = dimensions.tileHeight*i + 63,
+    var enemyY = dimensions.tileHeight*i + 135,
         enemyX = i*200;
     allEnemies.push(new Enemy(enemyX,enemyY));
     // TODO: add a speed function for variable speeds so all enemies can start at the left edge on init (plus makes game more interesting).
