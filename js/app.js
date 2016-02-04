@@ -23,6 +23,17 @@ var Enemy = function(x,y) {
     this.contactCenterY = 36;
     this.contactW = 70;
     this.contactH = 50;
+    this.speed = this.setSpeed();
+};
+
+// Add a speed function so enemy can have varying speed.
+// Call it when the enemy is generated, and also when it is reset
+// to the left edge. This way it makes it seem more like there are
+// an endless number of enemies.
+Enemy.prototype.setSpeed = function() {
+    // by doubling the random number and adding 0.75 I am setting the
+    // speed to roughly between 0.75 and 2.75 times the original speed.
+    return Math.random()*2 + 0.75;
 };
 
 // Update the enemy's position, required method for game
@@ -36,9 +47,11 @@ Enemy.prototype.update = function(dt) {
     if( this.x > dimensions.tileWidth * dimensions.cols){
         //move it back to the start:
         this.x = - dimensions.tileWidth;
+        //and set a new speed:
+        this.speed = this.setSpeed();
     }
     // otherwise move it along:
-    this.x = this.x + dimensions.tileWidth *dt;
+    this.x = this.x + dimensions.tileWidth *dt * this.speed;
 
 };
 
