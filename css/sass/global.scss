@@ -1,3 +1,10 @@
 body {
     text-align: center;
+    perspective: 1000;
+}
+canvas{
+  transition: all 0.5s;
+  &.flipped{
+    transform: rotateY(180deg);
+  }
 }

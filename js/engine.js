@@ -69,6 +69,19 @@ var Engine = (function(global) {
         main();
     }
 
+    function flip() {
+
+        if(player.x < 15){
+            player.x = 419;
+            canvas.classList.toggle('flipped');
+        }
+        else if (player.x > 419){
+            player.x = 15;
+            canvas.classList.toggle('flipped');
+        }
+
+    }
+
     /* This function is called by main (our game loop) and itself calls all
      * of the functions which may need to update entity's data. Based on how
      * you implement your collision detection (when two entities occupy the
@@ -81,6 +94,7 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
+        flip();
     }
     /* Checking collisons in engine as I need to access both player and enemy.
      * Given player and enemy are not aware of each other the collision detection
