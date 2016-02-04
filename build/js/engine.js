@@ -69,6 +69,13 @@ var Engine = (function(global) {
         main();
     }
 
+    // If a player goes off the sides of the board they are transported to the
+    // opposite side. This gives them another way of getting across the board,
+    // so to make it a little trickier we flip entire game on its Y axis.
+    // the entire board is now drawn in reverse and the players movement is
+    // inverted. If a player presses the right arrow key they will go left.
+    // The simplest way to achieve this was by simply adding a class to the canvas
+    // and using css transition and transform to flip the board.
     function flip() {
 
         if(player.x < 15){
