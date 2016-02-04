@@ -72,7 +72,11 @@ Player.prototype.update = function() {
         // Go back to the start:
         this.reset();
     }
-
+    // if the player is at the bottom:
+    else if (this.y > 445){
+        //don't allow them to go further:
+        this.y = 445;
+    }
 
 };
 // Created a separate call for resetting player as may need to do for more than one reason:
