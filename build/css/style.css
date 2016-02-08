@@ -13,4 +13,13 @@ canvas.flipped {
     transform: rotateY(180deg);
 }
 
+html {
+    font-family: 'Bangers', sans-serif;
+    background-color: #eee;
+}
+
+.score-container {
+    font-size: 2rem;
+}
+
 /*# sourceMappingURL=style.css.map */

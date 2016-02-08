@@ -100,6 +100,14 @@ module.exports = function(grunt) {
                     spawn: false,
                     livereload: true
                 }
+            },
+            html: {
+                files: ['index.html'],
+                tasks: ['copy:build'],
+                options: {
+                    spawn: false,
+                    livereload: true
+                }
             }
         }
 

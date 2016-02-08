@@ -1,10 +1,24 @@
+//FUNCTIONAL:
+
+//use css to 'flip' the game:
 body {
     text-align: center;
-    perspective: 1000;
+    perspective: 1000; //perspective is set to give the canvas a 3D look when it animates
 }
 canvas{
-  transition: all 0.5s;
+  transition: all 0.5s; //a transition is set so we can see the canvas animate
   &.flipped{
-    transform: rotateY(180deg);
+    transform: rotateY(180deg); //the transform occurs when the 'flipped' class is added or removed thus triggering the transition
   }
+}
+
+
+//DECORATIVE:
+html{
+  font-family: 'Bangers', sans-serif;
+  background-color: #eee;
+}
+
+.score-container{
+  font-size: 2rem;
 }

@@ -1,10 +1,50 @@
-    var dimensions = {
-        rows: 6,
-        cols: 5,
-        tileWidth: 101,
-        tileHeight: 83
-    };
+// Dimensions set here help reduce reliance on 'maigic numbers'
+// throughout code. Given these are based on the board size which
+// is set in the engine.js code it may be better to have to engine
+// code define them and give app.js access to them.
+var dimensions = {
+    rows: 6,
+    cols: 5,
+    tileWidth: 101,
+    tileHeight: 83
+};
 
+//create a Score object. This will be used to count the player's score
+// and also to adjust the speed of enemies.
+var Score = function(set){
+    //initial score to start activity on:
+    this.number = set;
+    //reference DOM element we'll use for showing score:
+    this.display = document.getElementsByClassName('current-score')[0];
+    //call render on load so the score is included from the start:
+    this.render();
+};
+
+// This function will be called to increase of decrease the users score.
+Score.prototype.change = function(value){
+    if (value === 'plus') {
+        //add a point:
+        this.number ++;
+        //then call the render method to update DOM:
+        this.render();
+    }
+    else if (value === 'minus'){
+        //lowest score is 0 so if user loses a point when on zero we don't remove any more
+        if (this.number >0) {
+            //remove a point:
+            this.number --;
+            //then call the render method to update DOM:
+            this.render();
+        }
+    }
+    else{
+        console.log('Score.change requires arg to be either "plus" or "minus"'); //DEBUG
+    }
+};
+Score.prototype.render = function(){
+    //Update the DOM - simply use innerHTML to replace the content in the span:
+    this.display.innerHTML = this.number;
+};
 
 // Enemies our player must avoid
 var Enemy = function(x,y) {
@@ -33,7 +73,14 @@ var Enemy = function(x,y) {
 Enemy.prototype.setSpeed = function() {
     // by doubling the random number and adding 0.75 I am setting the
     // speed to roughly between 0.75 and 2.75 times the original speed.
-    return Math.random()*2 + 0.75;
+
+    // Also I've added in a score multiplier.
+    // For every point the player gets we add 0.1 to the random speed.
+    // So for exampe once a player has 5 points the enemy speeds will range
+    // from 1.25 and 3.25. This way the game gets harder each point
+    // the player gains.
+    var scoreMultiplier = score.number / 10;
+    return Math.random()*2 + 0.75 + scoreMultiplier;
 };
 
 // Update the enemy's position, required method for game
@@ -58,10 +105,11 @@ Enemy.prototype.update = function(dt) {
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-
-    ctx.strokeRect(this.x + this.contactCenterX - (this.contactW / 2) , this.y + this.contactCenterY - (this.contactH / 2) ,this.contactW,this.contactH); // DEBUG
-
+    // ctx.strokeRect(this.x + this.contactCenterX - (this.contactW / 2) , this.y + this.contactCenterY - (this.contactH / 2) ,this.contactW,this.contactH); // DEBUG
 };
+
+
+
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -79,11 +127,12 @@ var Player = function(x, y) {
 };
 
 Player.prototype.update = function() {
-    //ok, currently thinking the board 'edges' logic could go here.
     // If the player reaches the water:
     if (this.y < 100) {
         // Go back to the start:
         this.reset();
+        //and add a point to the score:
+        score.change('plus');
     }
     // if the player is at the bottom:
     else if (this.y > 445){
@@ -99,8 +148,7 @@ Player.prototype.reset = function(){
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-
-    ctx.strokeRect(this.x + this.contactCenterX - (this.contactW / 2) , this.y + this.contactCenterY - (this.contactH / 2) ,this.contactW,this.contactH); // DEBUG
+    //ctx.strokeRect(this.x + this.contactCenterX - (this.contactW / 2) , this.y + this.contactCenterY - (this.contactH / 2) ,this.contactW,this.contactH); // DEBUG
 };
 
 Player.prototype.handleInput = function(input) {
@@ -121,6 +169,8 @@ Player.prototype.handleInput = function(input) {
 
 };
 // Now instantiate your objects.
+
+var score = new Score(0);
 
 // Place the player object in a variable called player
 var player = new Player(116, dimensions.tileHeight*5 + 30);

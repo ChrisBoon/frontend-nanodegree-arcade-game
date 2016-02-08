@@ -129,9 +129,10 @@ var Engine = (function(global) {
                 centerDistanceY = enemyCenterY - playerCenterY;
             //if the enemy and player are not a safe distance apart:
             if (centerDistanceX > -safeX && centerDistanceX < safeX  && centerDistanceY > -safeY && centerDistanceY < safeY) {
-                //currently just send player back to start.
-                //TODO: extend functionality here:
+                //send player back to start.
                 player.reset();
+                //reduce score:
+                score.change('minus');
             };
         });
     }
@@ -203,7 +204,7 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
-
+        // score.render();
         player.render();
     }
 
