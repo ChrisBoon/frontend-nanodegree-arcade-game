@@ -78,11 +78,11 @@ var Engine = (function(global) {
     // and using css transition and transform to flip the board.
     function flip() {
 
-        if(player.x < 15){
+        if(player.x < 15) {
             player.x = 419;
             canvas.classList.toggle('flipped');
         }
-        else if (player.x > 419){
+        else if (player.x > 419) {
             player.x = 15;
             canvas.classList.toggle('flipped');
         }
@@ -204,7 +204,6 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
-        // score.render();
         player.render();
     }
 

@@ -11,7 +11,7 @@ var dimensions = {
 
 //create a Score object. This will be used to count the player's score
 // and also to adjust the speed of enemies.
-var Score = function(set){
+var Score = function(set) {
     //initial score to start activity on:
     this.number = set;
     //reference DOM element we'll use for showing score:
@@ -21,23 +21,19 @@ var Score = function(set){
 };
 
 // This function will be called to increase of decrease the users score.
-Score.prototype.change = function(value){
+Score.prototype.change = function(value) {
     if (value === 'plus') {
         //add a point:
         this.number ++;
         //then call the render method to update DOM:
         this.render();
-    }
-    else if (value === 'minus'){
-        //lowest score is 0 so if user loses a point when on zero we don't remove any more
-        if (this.number >0) {
-            //remove a point:
-            this.number --;
-            //then call the render method to update DOM:
-            this.render();
-        }
-    }
-    else{
+    } else if (value === 'minus' && this.number > 0) {
+        //lowest score is 0 so if user loses a point when on zero we don't remove any more.
+        //remove a point:
+        this.number --;
+        //then call the render method to update DOM:
+        this.render();
+    } else {
         console.log('Score.change requires arg to be either "plus" or "minus"'); //DEBUG
     }
 };
@@ -80,7 +76,7 @@ Enemy.prototype.setSpeed = function() {
     // from 1.25 and 3.25. This way the game gets harder each point
     // the player gains.
     var scoreMultiplier = score.number / 10;
-    return Math.random()*2 + 0.75 + scoreMultiplier;
+    return Math.random() * 2 + 0.75 + scoreMultiplier;
 };
 
 // Update the enemy's position, required method for game
@@ -91,13 +87,13 @@ Enemy.prototype.update = function(dt) {
     // all computers.
 
     // if bug has reached the end:
-    if( this.x > dimensions.tileWidth * dimensions.cols){
-        //move it back to the start:
+    if ( this.x > dimensions.tileWidth * dimensions.cols) {
+        //move it back to the start (but just off canvas):
         this.x = - dimensions.tileWidth;
         //and set a new speed:
         this.speed = this.setSpeed();
     }
-    // otherwise move it along:
+    // now move it along:
     this.x = this.x + dimensions.tileWidth *dt * this.speed;
 
 };
@@ -133,17 +129,15 @@ Player.prototype.update = function() {
         this.reset();
         //and add a point to the score:
         score.change('plus');
-    }
-    // if the player is at the bottom:
-    else if (this.y > 445){
-        //don't allow them to go further:
+    } else if (this.y > 445){
+        // if the player is at the bottom don't allow them to go further:
         this.y = 445;
     }
 
 };
 // Created a separate call for resetting player as may need to do for more than one reason:
-Player.prototype.reset = function(){
-    this.y = dimensions.tileHeight*5 + 30;
+Player.prototype.reset = function() {
+    this.y = dimensions.tileHeight * 5 + 30;
 };
 
 Player.prototype.render = function() {
@@ -156,14 +150,11 @@ Player.prototype.handleInput = function(input) {
     //handling player reaching edges, etc is handled in 'update' function.
     if (input === "up") {
         this.y = this.y - dimensions.tileHeight;
-    }
-    else if (input === "down") {
+    } else if (input === "down") {
         this.y = this.y + dimensions.tileHeight;
-    }
-    else if (input === "left") {
+    } else if (input === "left") {
         this.x = this.x - dimensions.tileWidth;
-    }
-    else if (input === "right") {
+    } else if (input === "right") {
         this.x = this.x + dimensions.tileWidth;
     }
 
@@ -182,7 +173,6 @@ for (var i = 2; i >= 0; i--) {
     var enemyY = dimensions.tileHeight*i + 135,
         enemyX = i*200;
     allEnemies.push(new Enemy(enemyX,enemyY));
-    // TODO: add a speed function for variable speeds so all enemies can start at the left edge on init (plus makes game more interesting).
     // NOTE: I'm not really happy with the math used throughout
     // Although the canvas is 606px high the tiles are 171px and overlap.
     // Also due to their design there is transparent space at top and bottom.
