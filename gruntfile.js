@@ -59,8 +59,8 @@ module.exports = function(grunt) {
                     src: [
                         'css/*.css',
                         '*.html',
-                        'img/*',
-                        'js/*.min.js'
+                        'images/*',
+                        'js/*.js'
                     ]
                 }]
             }

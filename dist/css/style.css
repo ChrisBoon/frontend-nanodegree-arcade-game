@@ -1,0 +1,25 @@
+body {
+    text-align: center;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+}
+
+canvas {
+    transition: all 0.5s;
+}
+
+canvas.flipped {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+html {
+    font-family: 'Bangers', sans-serif;
+    background-color: #eee;
+}
+
+.score-container {
+    font-size: 2rem;
+}
+
+/*# sourceMappingURL=style.css.map */
