@@ -1,12 +1,12 @@
-// Dimensions set here help reduce reliance on 'maigic numbers'
+// DIMENSIONS set here help reduce reliance on 'maigic numbers'
 // throughout code. Given these are based on the board size which
 // is set in the engine.js code it may be better to have to engine
 // code define them and give app.js access to them.
-var dimensions = {
-    rows: 6,
-    cols: 5,
-    tileWidth: 101,
-    tileHeight: 83
+var DIMENSIONS = {
+    ROWS: 6,
+    COLS: 5,
+    TILEWIDTH: 101,
+    TILEHEIGHT: 83
 };
 
 //create a Score object. This will be used to count the player's score
@@ -87,14 +87,14 @@ Enemy.prototype.update = function(dt) {
     // all computers.
 
     // if bug has reached the end:
-    if ( this.x > dimensions.tileWidth * dimensions.cols) {
+    if ( this.x > DIMENSIONS.TILEWIDTH * DIMENSIONS.COLS) {
         //move it back to the start (but just off canvas):
-        this.x = - dimensions.tileWidth;
+        this.x = - DIMENSIONS.TILEWIDTH;
         //and set a new speed:
         this.speed = this.setSpeed();
     }
     // now move it along:
-    this.x = this.x + dimensions.tileWidth *dt * this.speed;
+    this.x = this.x + DIMENSIONS.TILEWIDTH *dt * this.speed;
 
 };
 
@@ -137,7 +137,7 @@ Player.prototype.update = function() {
 };
 // Created a separate call for resetting player as may need to do for more than one reason:
 Player.prototype.reset = function() {
-    this.y = dimensions.tileHeight * 5 + 30;
+    this.y = DIMENSIONS.TILEHEIGHT * 5 + 30;
 };
 
 Player.prototype.render = function() {
@@ -149,13 +149,13 @@ Player.prototype.handleInput = function(input) {
     //basic movement - all directions are always allowed.
     //handling player reaching edges, etc is handled in 'update' function.
     if (input === "up") {
-        this.y = this.y - dimensions.tileHeight;
+        this.y = this.y - DIMENSIONS.TILEHEIGHT;
     } else if (input === "down") {
-        this.y = this.y + dimensions.tileHeight;
+        this.y = this.y + DIMENSIONS.TILEHEIGHT;
     } else if (input === "left") {
-        this.x = this.x - dimensions.tileWidth;
+        this.x = this.x - DIMENSIONS.TILEWIDTH;
     } else if (input === "right") {
-        this.x = this.x + dimensions.tileWidth;
+        this.x = this.x + DIMENSIONS.TILEWIDTH;
     }
 
 };
@@ -164,13 +164,13 @@ Player.prototype.handleInput = function(input) {
 var score = new Score(0);
 
 // Place the player object in a variable called player
-var player = new Player(116, dimensions.tileHeight*5 + 30);
+var player = new Player(116, DIMENSIONS.TILEHEIGHT * 5 + 30);
 
 // Place all enemy objects in an array called allEnemies
 var allEnemies = [];
 
 for (var i = 2; i >= 0; i--) {
-    var enemyY = dimensions.tileHeight*i + 135,
+    var enemyY = DIMENSIONS.TILEHEIGHT*i + 135,
         enemyX = i*200;
     allEnemies.push(new Enemy(enemyX,enemyY));
     // NOTE: I'm not really happy with the math used throughout

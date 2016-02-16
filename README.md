@@ -22,3 +22,4 @@ Download or fork the repo. You can play the game by opening the 'dist' folder an
 ### Release Notes
 Updates to address issues with first submission:
 * Added this readme with instructions.
+* Updated code to use UPPERCASE for constants as per Udacity Style Guide
