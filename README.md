@@ -10,8 +10,14 @@ Go to http://chrisboon.github.io/frontend-nanodegree-arcade-game/
 ### View offline
 Download or fork the repo. You can play the game by opening the 'dist' folder and opening index.html in a web browser.
 
-## Version
-1.0.1
+## Playing the game
+* Use the arrow keys to move around
+* Reaching the river gains a point
+* Getting hit by an enemy loses a point
+* Enemies get faster the more points you get
+* Step off the side of the board to flip round to the back. Use this to avoid enemies, but beware your left and right are reversed, making movement trickier.
+
+## Version 1.0.1
 
 ### Release Notes
 Updates to address issues with first submission:
